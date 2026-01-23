@@ -23,11 +23,7 @@
 
     <modules>
         <module>config-server</module>
-
-
-
-
-
+        <module>common</module>
 
 
         <!-- <module>product-service</module> -->
