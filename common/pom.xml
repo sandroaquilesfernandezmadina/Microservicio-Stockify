@@ -23,6 +23,14 @@
             <version>3.1.0</version>
         </dependency>
 
+        <!-- Spring Data JPA (para auditoría) -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>3.2.1</version>
+        </dependency>
+
+
         <!-- Lombok  -->
         <dependency>
             <groupId>org.projectlombok</groupId>
