@@ -1,9 +1,8 @@
 package org.stockify.ServiceImpl;
 
-import org.apache.juli.logging.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.stockify.Repository.ProductoRepository;
+import org.stockify.repository.ProductoRepository;
 import org.stockify.Service.ProductoService;
 import org.stockify.entity.Producto;
 
