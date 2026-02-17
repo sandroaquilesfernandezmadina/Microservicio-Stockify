@@ -19,23 +19,23 @@
     </properties>
     <dependencies>
 
-        <!-- Cliente de Config Server
+        <!-- Cliente de Config Server-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-config</artifactId>
-        </dependency>-->
+        </dependency>
 
-        <!-- Cliente Eureka (Service Discovery)
+        <!-- Cliente Eureka (Service Discovery)-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-        </dependency> -->
+        </dependency>
 
-        <!-- Cliente Kubernetes (opcional si usarás K8s features)
+        <!-- Cliente Kubernetes (opcional si usarás K8s features)-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-kubernetes-client</artifactId>
-        </dependency>-->
+        </dependency>
 
         <!-- Web -->
         <dependency>

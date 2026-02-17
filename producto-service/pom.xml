@@ -31,7 +31,6 @@
     <properties>
         <!-- Versión de Java -->
         <java.version>21</java.version>
-
         <!-- Versión del Release Train de Spring Cloud -->
         <spring-cloud.version>2024.0.0</spring-cloud.version>
     </properties>
