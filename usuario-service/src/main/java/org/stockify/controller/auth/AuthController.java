@@ -11,9 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.stockify.entity.Usuario;
 import org.stockify.security.jwt.JwtUtils;
-import org.stockify.service.UsuarioSevice;
+import org.stockify.service.UsuarioService;
 
 @RestController
 @RequestMapping("/auth")
@@ -25,14 +24,16 @@ public class AuthController {
     @Autowired
     private JwtUtils jwtUtils;
     @Autowired
-    private UsuarioSevice usuarioSevice;
+    private UsuarioService usuarioSevice;
 
 
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody Usuario usuario) {
+    public ResponseEntity<?> register(
+            @Valid @RequestBody RegisterRequest request) {
+
         try {
-            return ResponseEntity.ok(usuarioSevice.guardar(usuario));
+            return ResponseEntity.ok(usuarioSevice.register(request));
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
                     .body(e.getMessage());
