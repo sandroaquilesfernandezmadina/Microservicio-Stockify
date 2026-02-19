@@ -1,16 +1,18 @@
 package org.stockify.Service;
 
-import org.apache.juli.logging.Log;
+import org.stockify.dto.ProductoRequest;
+import org.stockify.dto.ProductoResponse;
 import org.stockify.entity.Producto;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface ProductoService {
-    List<Producto> findAll();
-    Optional <Producto> findAllById(Long id);
-    Producto  Save(Producto producto);
-    Producto Update(Long id, Producto producto);
+    List<ProductoResponse> findAll();
+    ProductoResponse findAllById(Long id);
+    ProductoResponse  Save(ProductoRequest request);
+    ProductoResponse Update(Long id, ProductoRequest request);
     void delete(Long id);
+
 
 }

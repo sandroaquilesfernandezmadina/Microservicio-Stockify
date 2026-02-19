@@ -5,16 +5,21 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.stockify.persistence.BaseEntity;
 
 @Entity
-@Table(name = "categorias")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Categoria extends BaseEntity{
+@Table(name = "productos")
+public class Producto extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private  Long id;
+    private Long id;
     private String nombre;
+    private Double precio;
+
+    private Long categoriaId;
+
 }

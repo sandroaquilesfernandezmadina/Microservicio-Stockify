@@ -1,52 +1,95 @@
 package org.stockify.ServiceImpl;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.stockify.client.CategoriaClient;
+import org.stockify.dto.ProductoRequest;
+import org.stockify.dto.ProductoResponse;
+import org.stockify.entity.Producto;
+import org.stockify.mapper.ProductoMapper;
 import org.stockify.repository.ProductoRepository;
 import org.stockify.Service.ProductoService;
-import org.stockify.entity.Producto;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ProductoServiceImpl implements ProductoService {
 
-    @Autowired
-    private ProductoRepository productoRepository;
+    private final ProductoRepository productoRepository;
+    private  final ProductoMapper productoMapper;
+    private  final CategoriaClient categoriaClient;
 
     @Override
-    public List<Producto> findAll() {
-        return productoRepository.findAll();
+    public List<ProductoResponse> findAll() {
+        return productoRepository.findAll()
+                .stream()
+                .map(producto -> {
+
+                    ProductoResponse response = productoMapper.toResponse(producto);
+
+                    response.setCategoria(
+                            categoriaClient.getCategoriaById(producto.getCategoriaId())
+                    );
+
+                    return response;
+                })
+                .toList();
     }
 
     @Override
-    public Optional<Producto> findAllById(Long id) {
-        return productoRepository.findById(id);
+    public ProductoResponse findAllById(Long id) {
+
+        Producto producto = productoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+
+        ProductoResponse response = productoMapper.toResponse(producto);
+
+        response.setCategoria(
+                categoriaClient.getCategoriaById(producto.getCategoriaId())
+        );
+
+        return response;
     }
 
     @Override
-    public Producto Save(Producto producto) {
-        return productoRepository.save(producto);
+    public ProductoResponse Save(ProductoRequest request) {
+
+        // 🔥 Validar que la categoría exista
+        categoriaClient.getCategoriaById(request.getCategoriaId());
+
+        Producto producto = productoMapper.toEntity(request);
+
+        Producto guardado = productoRepository.save(producto);
+
+        return productoMapper.toResponse(guardado);
     }
 
     @Override
-    public Producto Update(Long id, Producto producto) {
-        Optional <Producto> optener = productoRepository.findById(id);
-        if(optener.isPresent()){
-          Producto prod = optener.get();
-          prod.setNombre(producto.getNombre());
-          prod.setPrecio(producto.getPrecio());
-          prod.setCategoria(producto.getCategoria());
+    public ProductoResponse Update(Long id, ProductoRequest request) {
 
-        return productoRepository.save(prod);
-        } else{
-            throw new RuntimeException("Producto no encontrada con ID: " + id);
-        }
+        Producto producto = productoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+
+        // Validar categoría
+        categoriaClient.getCategoriaById(request.getCategoriaId());
+
+        // Actualización manual
+        producto.setNombre(request.getNombre());
+        producto.setPrecio(request.getPrecio());
+        producto.setCategoriaId(request.getCategoriaId());
+
+        Producto actualizado = productoRepository.save(producto);
+
+        return productoMapper.toResponse(actualizado);
     }
 
     @Override
     public void delete(Long id) {
-    productoRepository.deleteById(id);
+        if (!productoRepository.existsById(id)) {
+            throw new RuntimeException("Producto no encontrado");
+        }
+        productoRepository.deleteById(id);
     }
 }

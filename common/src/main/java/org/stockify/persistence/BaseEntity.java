@@ -1,4 +1,4 @@
-package org.stockify.entity;
+package org.stockify.persistence;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
